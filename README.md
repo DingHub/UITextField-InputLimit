@@ -6,7 +6,7 @@ eg: forbid emoji, only money decimal , limit length.<br>
 
 Usage:
 ---
-You can use these categories with code:<br>
+You can use these extensions with code:<br>
 可以纯代码使用：<br>
 
 ```

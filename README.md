@@ -4,8 +4,6 @@
 eg: forbid emoji, only money decimal , limit length.<br>
 如：禁止表情符， 限制金额格式， 限制长度。<br>
 
-![InputLimit](https://github.com/DingHub/ScreenShots/blob/master/UITextField%20(InputLimit)/tl0.png)
-
 Usage:
 ---
 You can use these categories with code:<br>

@@ -11,7 +11,9 @@ Usage:
 You can use these categories with code:<br>
 可以纯代码使用：<br>
 
-![InputLimit](https://github.com/DingHub/ScreenShots/blob/master/UITextField%20(InputLimit)/tl1.png)
+```
+textField.isMoney = true
+```
 
 Or in IB:<br>
 或者简单地在IB里设置：<br>

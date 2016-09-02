@@ -8,7 +8,7 @@
 
 import UIKit
 
-extension UITextField {
+public extension UITextField {
     
     @IBInspectable public var noEmoji: Bool {
         get {
@@ -21,31 +21,36 @@ extension UITextField {
             }
         }
     }
-    
-    private func addEmojiObserver() {
-        self.addTarget(self,
-                       action: #selector(observeEmoji),
-                       forControlEvents: .EditingChanged)
+}
+
+private extension UITextField {
+    func addEmojiObserver() {
+        self.addTarget(self, action: #selector(observeEmoji), forControlEvents: .EditingChanged)
     }
     
-    @objc private func observeEmoji() {
+    @objc func observeEmoji() {
         
         guard noEmoji else { return }
         
         let primaryLaguage = textInputMode?.primaryLanguage
         if primaryLaguage == nil || primaryLaguage == "emoji" {
-            text = helperValues.oldText
+            text = oldText
             return
         }
-        helperValues.oldText = text
+        oldText = text
     }
     
-    private struct helperValues {
-        static var oldText: String?
+    var oldText: String? {
+        get {
+            return (objc_getAssociatedObject(self, &AssociatedKeys.oldTextKey) as? String)
+        }
+        set {
+            objc_setAssociatedObject(self, &AssociatedKeys.oldTextKey, newValue, .OBJC_ASSOCIATION_COPY)
+        }
     }
     
-    private struct AssociatedKeys {
+    struct AssociatedKeys {
         static var noEmojiKey = "noEmojiKey"
+        static var oldTextKey = "oldTextKey"
     }
-
 }

@@ -8,7 +8,7 @@
 
 import UIKit
 
-extension UITextField {
+public extension UITextField {
     
     @IBInspectable public var maxLength: Int {//    maxLength<=0    <=>     no limit
         get {
@@ -19,14 +19,15 @@ extension UITextField {
             addLengthObserver()
         }
     }
+}
+
+private extension UITextField {
     
-    private func addLengthObserver() {
-        self.addTarget(self,
-                       action: #selector(observeLength),
-                       forControlEvents: .EditingChanged)
+    func addLengthObserver() {
+        self.addTarget(self, action: #selector(observeLength), forControlEvents: .EditingChanged)
     }
     
-    @objc private func observeLength() {
+    @objc func observeLength() {
         guard maxLength > 0 else { return }
         /// deal with Chinese, Japanese,... input, when input somothing like pinyin, we will not judge the length
         let selectedRange = markedTextRange
@@ -40,8 +41,7 @@ extension UITextField {
         }
     }
     
-    private struct AssociatedKeys {
+    struct AssociatedKeys {
         static var maxLengthKey = "maxLengthKey"
     }
-    
 }

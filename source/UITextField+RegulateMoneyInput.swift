@@ -78,7 +78,7 @@ private extension UITextField {
             }
         }
         
-        if correctText?.characters.count == 0 && newText == "." {//"."->"0."
+        if (correctText == nil || correctText?.characters.count == 0) && newText == "." {//"."->"0."
             correctText = "0."
             text = "0."
             return

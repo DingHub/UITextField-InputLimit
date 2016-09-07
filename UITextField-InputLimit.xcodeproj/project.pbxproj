@@ -113,7 +113,6 @@
 				TargetAttributes = {
 					84B1D6F61D5465AE009B8A1A = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = 895M86LRXV;
 						LastSwiftMigration = 0800;
 					};
 				};
@@ -278,7 +277,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 895M86LRXV;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "UITextField-InputLimit/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -292,7 +291,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 895M86LRXV;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "UITextField-InputLimit/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

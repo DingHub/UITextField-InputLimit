@@ -18,9 +18,5 @@ Or in IB:<br>
 ![InputLimit](https://github.com/DingHub/ScreenShots/blob/master/UITextField%20(InputLimit)/tl2.png)
 
 
-Swift3 branch is ready, I'll combine the branch to master when the final official version of Swift3 released.
-
-Swift3分支已准备好，在Swift3正式版发布后会合并到master分支。
-
 You can find an objective-C version here:<br>
 在这里可以找到一个objective-C版本：[UITextField+InputLimit](https://github.com/DingHub/UITextField-InputLimit-)

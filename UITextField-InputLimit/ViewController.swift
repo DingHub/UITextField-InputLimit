@@ -18,10 +18,10 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
     
     func addTopTextField() {
-        let screenWidth = UIScreen.mainScreen().bounds.size.width
+        let screenWidth = UIScreen.main.bounds.size.width
         let textFrame = CGRect(x: 15, y: 80, width: screenWidth - 30, height: 30)
         let topTextField = UITextField(frame: textFrame)
-        topTextField.borderStyle = .RoundedRect
+        topTextField.borderStyle = .roundedRect
         topTextField.placeholder = String(format: "Money && amount <= %.2f", kMaxMoney)
         topTextField.delegate = self
         view.addSubview(topTextField)
@@ -29,9 +29,9 @@ class ViewController: UIViewController, UITextFieldDelegate {
         topTextField.isMoney = true
     }
     
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if let fullText = textField.text {
-            let newString = (fullText as NSString).stringByReplacingCharactersInRange(range, withString: string)
+            let newString = (fullText as NSString).replacingCharacters(in: range, with: string)
             if let value = Double(newString) {
                 if value - kMaxMoney > 0.009999 {// amount should <= kMaxMoney
                     return false

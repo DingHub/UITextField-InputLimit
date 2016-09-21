@@ -12,19 +12,23 @@ public extension UITextField {
     
     @IBInspectable public var maxLength: Int {//    maxLength<=0    <=>     no limit
         get {
-            return (objc_getAssociatedObject(self, &AssociatedKeys.maxLengthKey) as? Int)!
+            return p_maxLength
         }
         set {
-            objc_setAssociatedObject(self, &AssociatedKeys.maxLengthKey, newValue, .OBJC_ASSOCIATION_ASSIGN)
-            addLengthObserver()
+            p_maxLength = newValue
+            if newValue > 0 {
+                addLengthObserver()
+            }
         }
     }
 }
 
+fileprivate var p_maxLength = 0
+
 private extension UITextField {
     
     func addLengthObserver() {
-        self.addTarget(self, action: #selector(observeLength), forControlEvents: .EditingChanged)
+        self.addTarget(self, action: #selector(observeLength), for: .editingChanged)
     }
     
     @objc func observeLength() {
@@ -34,14 +38,10 @@ private extension UITextField {
         if selectedRange == nil || selectedRange?.start == nil {
             if let text = self.text {
                 if text.characters.count > maxLength {
-                    let index = text.startIndex.advancedBy(maxLength)
-                    self.text = text.substringToIndex(index)
+                    let index = text.characters.index(text.startIndex, offsetBy: maxLength)
+                    self.text = text.substring(to: index)
                 }
             }
         }
-    }
-    
-    struct AssociatedKeys {
-        static var maxLengthKey = "maxLengthKey"
     }
 }

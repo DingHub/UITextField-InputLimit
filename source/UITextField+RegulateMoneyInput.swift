@@ -12,22 +12,24 @@ public extension UITextField {
     
     @IBInspectable public var isMoney: Bool {
         get {
-            return (objc_getAssociatedObject(self, &AssociatedKeys.isMoneyKey) as? Bool)!
+            return p_isMoney
         }
         set {
-            objc_setAssociatedObject(self, &AssociatedKeys.isMoneyKey, newValue, .OBJC_ASSOCIATION_ASSIGN)
+            p_isMoney = newValue
             if newValue {
-                keyboardType = .DecimalPad   //  We should set key type as decimalPad at first
+                keyboardType = .decimalPad   //  We should set key type as decimalPad at first
                 addMoneyObserver()
             }
         }
     }
 }
 
+fileprivate var p_isMoney = false
+
 private extension UITextField {
     
     func addMoneyObserver() {
-        self.addTarget(self, action: #selector(observeMoney), forControlEvents: .EditingChanged)
+        self.addTarget(self, action: #selector(observeMoney), for: .editingChanged)
     }
     
     @objc func observeMoney() {
@@ -37,13 +39,13 @@ private extension UITextField {
         
         var newText = allText
         if let correctText = correctText {
-            if let oldTextRange = allText?.rangeOfString(correctText) {
-                newText = allText?.substringFromIndex(oldTextRange.endIndex)
+            if let oldTextRange = allText?.range(of: correctText) {
+                newText = allText?.substring(from: oldTextRange.upperBound)
             }
         }
         
-        let set = NSCharacterSet(charactersInString: "0123456789.").invertedSet
-        let fitered = (newText?.componentsSeparatedByCharactersInSet(set))?.joinWithSeparator("")
+        let set = CharacterSet(charactersIn: "0123456789.").inverted
+        let fitered = (newText?.components(separatedBy: set))?.joined(separator: "")
         if fitered == nil || fitered?.characters.count == 0 {
             if newText == "" {//inputed backSpace
                 correctText = newText
@@ -53,16 +55,16 @@ private extension UITextField {
         }
         
         if let correctText = correctText {
-            if correctText.containsString(".") {
+            if correctText.contains(".") {
                 if newText == "." {//only one "."
                     text = correctText
                     return
                 }
                 //2 charactors limited after "."
-                let array = correctText.componentsSeparatedByString(".")
+                let array = correctText.components(separatedBy: ".")
                 if array.count == 2 {
                     if ((array.last)! as String).characters.count >= 2 {
-                        let newStringArray = newText?.componentsSeparatedByString(".")
+                        let newStringArray = newText?.components(separatedBy: ".")
                         if newStringArray?.count == 2 && ((newStringArray?.last)! as String).characters.count == 1 {//inputed backSpace
                             self.correctText = newText
                         }
@@ -84,7 +86,7 @@ private extension UITextField {
             return
         }
         if correctText?.characters.count == 1 && correctText == "0" {
-            if newText != "." && Int(newText!) > 0 {//'0'->other numbers
+            if newText != "." && Int(newText!)! > 0 {//'0'->other numbers
                 correctText = newText
                 text = newText
                 return
@@ -103,7 +105,6 @@ private extension UITextField {
     }
     
     struct AssociatedKeys {
-        static var isMoneyKey = "isMoneyKey"
         static var correctTextKey = "correctTextKey"
     }
 }

@@ -12,16 +12,15 @@ public extension UITextField {
     
     @IBInspectable public var noEmoji: Bool {
         get {
-            if let associated = objc_getAssociatedObject(self, &AssociatedKeys.noEmojiKey)
-                as? Bool { return associated }
+            if let associated = objc_getAssociatedObject(self, &AssociatedKeys.noEmojiKey) as? Bool {
+                return associated
+            }
             let associated = false
-            objc_setAssociatedObject(self, &AssociatedKeys.noEmojiKey, associated,
-                                     .OBJC_ASSOCIATION_ASSIGN)
+            objc_setAssociatedObject(self, &AssociatedKeys.noEmojiKey, associated, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
             return associated
         }
         set {
-            objc_setAssociatedObject(self, &AssociatedKeys.noEmojiKey, newValue,
-                                     .OBJC_ASSOCIATION_ASSIGN)
+            objc_setAssociatedObject(self, &AssociatedKeys.noEmojiKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
             if newValue {
                 addEmojiObserver()
             }

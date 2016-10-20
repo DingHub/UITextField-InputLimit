@@ -13,15 +13,15 @@ public extension UITextField {
     @IBInspectable public var isMoney: Bool {
         get {
             if let associated = objc_getAssociatedObject(self, &AssociatedKeys.isMonewKey)
-                as? Bool { return associated }
+                as? Bool {
+                return associated
+            }
             let associated = false
-            objc_setAssociatedObject(self, &AssociatedKeys.isMonewKey, associated,
-                                     .OBJC_ASSOCIATION_ASSIGN)
+            objc_setAssociatedObject(self, &AssociatedKeys.isMonewKey, associated, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
             return associated
         }
         set {
-            objc_setAssociatedObject(self, &AssociatedKeys.isMonewKey, newValue,
-                                     .OBJC_ASSOCIATION_ASSIGN)
+            objc_setAssociatedObject(self, &AssociatedKeys.isMonewKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
             if newValue {
                 keyboardType = .decimalPad   //  We should set key type as decimalPad at first
                 addMoneyObserver()

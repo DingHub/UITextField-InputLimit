@@ -12,16 +12,15 @@ public extension UITextField {
     
     @IBInspectable public var maxLength: Int {//    maxLength<=0    <=>     no limit
         get {
-            if let associated = objc_getAssociatedObject(self, &AssociatedKeys.maxLengthKey)
-                as? Int { return associated }
-            let associated = 0
-            objc_setAssociatedObject(self, &AssociatedKeys.maxLengthKey, associated,
-                                     .OBJC_ASSOCIATION_ASSIGN)
+            if let associated = objc_getAssociatedObject(self, &AssociatedKeys.maxLengthKey) as? Int {
+                return associated
+            }
+            let associated: Int = 0
+            objc_setAssociatedObject(self, &AssociatedKeys.maxLengthKey, associated, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
             return associated
         }
         set {
-            objc_setAssociatedObject(self, &AssociatedKeys.maxLengthKey, newValue,
-                                     .OBJC_ASSOCIATION_ASSIGN)
+            objc_setAssociatedObject(self, &AssociatedKeys.maxLengthKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
             if newValue > 0 {
                 addLengthObserver()
             }
@@ -36,14 +35,15 @@ private extension UITextField {
     }
     
     @objc func observeLength() {
-        guard maxLength > 0 else { return }
-        /// deal with Chinese, Japanese,... input, when input somothing like pinyin, we will not judge the length
-        let selectedRange = markedTextRange
-        if selectedRange == nil || selectedRange?.start == nil {
-            if let text = self.text {
-                if text.characters.count > maxLength {
-                    let index = text.characters.index(text.startIndex, offsetBy: maxLength)
-                    self.text = text.substring(to: index)
+        if maxLength > 0 {
+            /// deal with Chinese, Japanese,... input, when input somothing like pinyin, we will not judge the length
+            let selectedRange = markedTextRange
+            if selectedRange == nil || selectedRange?.start == nil {
+                if let text = self.text {
+                    if text.characters.count > maxLength {
+                        let index = text.characters.index(text.startIndex, offsetBy: maxLength)
+                        self.text = text.substring(to: index)
+                    }
                 }
             }
         }

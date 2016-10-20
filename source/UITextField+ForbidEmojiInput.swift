@@ -12,10 +12,16 @@ public extension UITextField {
     
     @IBInspectable public var noEmoji: Bool {
         get {
-            return p_noEmoji
+            if let associated = objc_getAssociatedObject(self, &AssociatedKeys.noEmojiKey)
+                as? Bool { return associated }
+            let associated = false
+            objc_setAssociatedObject(self, &AssociatedKeys.noEmojiKey, associated,
+                                     .OBJC_ASSOCIATION_ASSIGN)
+            return associated
         }
         set {
-            p_noEmoji = newValue
+            objc_setAssociatedObject(self, &AssociatedKeys.noEmojiKey, newValue,
+                                     .OBJC_ASSOCIATION_ASSIGN)
             if newValue {
                 addEmojiObserver()
             }
@@ -23,7 +29,6 @@ public extension UITextField {
     }
 }
 
-fileprivate var p_noEmoji = false
 
 private extension UITextField {
     func addEmojiObserver() {
@@ -53,5 +58,6 @@ private extension UITextField {
     
     struct AssociatedKeys {
         static var oldTextKey = "oldTextKey"
+        static var noEmojiKey = "noEmojiKey"
     }
 }

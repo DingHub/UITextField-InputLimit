@@ -12,10 +12,16 @@ public extension UITextField {
     
     @IBInspectable public var isMoney: Bool {
         get {
-            return p_isMoney
+            if let associated = objc_getAssociatedObject(self, &AssociatedKeys.isMonewKey)
+                as? Bool { return associated }
+            let associated = false
+            objc_setAssociatedObject(self, &AssociatedKeys.isMonewKey, associated,
+                                     .OBJC_ASSOCIATION_ASSIGN)
+            return associated
         }
         set {
-            p_isMoney = newValue
+            objc_setAssociatedObject(self, &AssociatedKeys.isMonewKey, newValue,
+                                     .OBJC_ASSOCIATION_ASSIGN)
             if newValue {
                 keyboardType = .decimalPad   //  We should set key type as decimalPad at first
                 addMoneyObserver()
@@ -24,7 +30,6 @@ public extension UITextField {
     }
 }
 
-fileprivate var p_isMoney = false
 
 private extension UITextField {
     
@@ -105,6 +110,7 @@ private extension UITextField {
     }
     
     struct AssociatedKeys {
+        static var isMonewKey = "isMonewKey"
         static var correctTextKey = "correctTextKey"
     }
 }

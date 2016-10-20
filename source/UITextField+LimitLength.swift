@@ -12,6 +12,27 @@ public extension UITextField {
     
     @IBInspectable public var maxLength: Int {//    maxLength<=0    <=>     no limit
         get {
+            if let associated = objc_getAssociatedObject(self, &AssociatedKeys.maxLengthKey)
+                as? Int { return associated }
+            let associated = 0
+            objc_setAssociatedObject(self, &AssociatedKeys.maxLengthKey, associated,
+                                     .OBJC_ASSOCIATION_ASSIGN)
+            return associated
+        }
+        set {
+            objc_setAssociatedObject(self, &AssociatedKeys.maxLengthKey, newValue,
+                                     .OBJC_ASSOCIATION_ASSIGN)
+            if newValue > 0 {
+                addLengthObserver()
+            }
+        }
+    }
+}
+
+public extension UITextField {
+    
+    @IBInspectable public var maxLength: Int {//    maxLength<=0    <=>     no limit
+        get {
             return p_maxLength
         }
         set {
@@ -44,4 +65,8 @@ private extension UITextField {
             }
         }
     }
+    struct AssociatedKeys {
+        static var maxLengthKey = "maxLengthKey"
+    }
+    
 }

@@ -29,23 +29,6 @@ public extension UITextField {
     }
 }
 
-public extension UITextField {
-    
-    @IBInspectable public var maxLength: Int {//    maxLength<=0    <=>     no limit
-        get {
-            return p_maxLength
-        }
-        set {
-            p_maxLength = newValue
-            if newValue > 0 {
-                addLengthObserver()
-            }
-        }
-    }
-}
-
-fileprivate var p_maxLength = 0
-
 private extension UITextField {
     
     func addLengthObserver() {

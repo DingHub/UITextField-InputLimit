@@ -30,8 +30,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if let fullText = textField.text {
-            let newString = (fullText as NSString).replacingCharacters(in: range, with: string)
+        if let text = textField.text {
+            let newString = (text as NSString).replacingCharacters(in: range, with: string)
             if let value = Double(newString) {
                 if value - kMaxMoney > 0.009999 {// amount should <= kMaxMoney
                     return false

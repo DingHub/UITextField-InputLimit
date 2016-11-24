@@ -39,7 +39,7 @@ private extension UITextField {
         guard noEmoji else { return }
         
         let primaryLaguage = textInputMode?.primaryLanguage
-        if primaryLaguage == nil || primaryLaguage == "emoji" {
+        if primaryLaguage == nil || primaryLaguage! == "emoji" {
             text = oldText
             return
         }

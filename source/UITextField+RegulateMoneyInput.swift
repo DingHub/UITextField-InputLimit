@@ -51,6 +51,7 @@ private extension UITextField {
         
         let set = CharacterSet(charactersIn: "0123456789.").inverted
         let fitered = (newText?.components(separatedBy: set))?.joined(separator: "")
+        
         if fitered == nil || fitered?.characters.count == 0 {
             if newText == "" {//inputed backSpace
                 correctText = newText
@@ -78,8 +79,8 @@ private extension UITextField {
                     }
                 }
             } else if correctText.characters.count == 1 {
-                if newText == "0" && self.correctText == "0" {
-                    text = self.correctText
+                if newText == "0" && correctText == "0" {
+                    text = correctText
                     return
                 }
             }

@@ -35,18 +35,13 @@ private extension UITextField {
     }
     
     @objc func observeLength() {
-        if maxLength > 0 {
-            /// deal with Chinese, Japanese,... input, when input somothing like pinyin, we will not judge the length
-            let selectedRange = markedTextRange
-            if selectedRange == nil || selectedRange?.start == nil {
-                if let text = self.text {
-                    if text.characters.count > maxLength {
-                        let index = text.characters.index(text.startIndex, offsetBy: maxLength)
-                        self.text = text.substring(to: index)
-                    }
-                }
-            }
-        }
+        guard maxLength > 0 else { return }
+        /// deal with Chinese, Japanese,... input, when input somothing like pinyin, we will not judge the length
+        let selectedRange = markedTextRange
+        guard selectedRange == nil || selectedRange?.start == nil else { return }
+        guard let text = self.text, text.characters.count > maxLength else { return }
+        let index = text.characters.index(text.startIndex, offsetBy: maxLength)
+        self.text = text.substring(to: index)
     }
     struct AssociatedKeys {
         static var maxLengthKey = "maxLengthKey"
